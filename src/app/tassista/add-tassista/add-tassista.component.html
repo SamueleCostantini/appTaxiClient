@@ -1,0 +1,10 @@
+<p>Registrati come tassista</p>
+<form>
+    <label>Email</label><input type="email" name="email" [(ngModel)]="tassista.email" >
+    <br><label>Nome</label><input type="email" name="name" [(ngModel)]="tassista.name" >
+    <br><label>Cognome</label><input type="email" name="surname" [(ngModel)]="tassista.surname" >
+    <br><label>Password</label><input type="password" name="password" [(ngModel)]="tassista.password" >
+    <br><label>Tassista </label><input type="text" name="targa" [(ngModel)]="tassista.targa" >
+    <br><label>Tassista </label><input type="checkbox" [defaultChecked]="true" name="role" [(ngModel)]="tassista.role" >
+    <br><input type="submit" (click)="addtassista()" placeholder="Aggiungi taxi">
+</form>

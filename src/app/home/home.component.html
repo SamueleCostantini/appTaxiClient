@@ -1,0 +1,28 @@
+<style>
+    .taxi-driver{
+        margin: auto;
+        display: block;
+    }
+    *{
+        text-align: center;
+    }
+    .container-button{
+        width: 400px;
+        margin: auto;
+    }
+    .container-button img{
+        width: 100px;
+    }
+    .container-button button{
+        width: auto;
+        margin: auto;
+        margin: 20px;
+    }
+</style>
+<h1>Sei un tassista o un passeggero?</h1>
+
+<div class="container-button">
+<button routerLink="/tassista"><img class="taxi-driver" [src]="'./assets/img/icons8-taxi-driver-64.png'"></button>
+<button routerLink="/passeggero"><img class="taxi-driver" [src]="'./assets/img/icons8-middle-aged-100.png'"></button>
+</div>
+<

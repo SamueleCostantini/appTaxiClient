@@ -1,0 +1,10 @@
+<p>taxi works!</p>
+<form (ngSubmit)="onSubmit()">
+    <label>Targa taxi</label><input type="text" name="targa" [(ngModel)]="taxi.targa" >
+    <input type="submit" (click)="addTaxi()" placeholder="Aggiungi taxi">
+</form>
+
+<h1>Taxi</h1>
+<div *ngFor="let taxi of taxiList">
+<label>Taxi targa: {{taxi.targa}}</label>
+</div>

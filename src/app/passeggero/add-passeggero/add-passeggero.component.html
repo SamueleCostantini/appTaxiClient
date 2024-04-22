@@ -1,0 +1,9 @@
+<p>Registrati come passeggero</p>
+<form>
+    <label>Email</label><input type="email" name="email" [(ngModel)]="passeggero.email" >
+    <br><label>Nome</label><input type="email" name="name" [(ngModel)]="passeggero.name" >
+    <br><label>Cognome</label><input type="email" name="surname" [(ngModel)]="passeggero.surname" >
+    <br><label>Password</label><input type="password" name="password" [(ngModel)]="passeggero.password" >
+    <br><label>Passeggero </label><input type="checkbox" [defaultChecked]="true" name="role" [(ngModel)]="passeggero.role" >
+    <br><input type="submit" (click)="addPasseggero()" placeholder="Aggiungi taxi">
+</form>
