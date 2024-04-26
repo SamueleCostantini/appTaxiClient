@@ -1,8 +1,8 @@
 <p>Pagina del passeggero</p>
-<form *ngIf="isVisible">
+<form *ngIf="isVisible" (ngSubmit)="login()">
     <label>Email</label><input type="email" placeholder="Email" [(ngModel)]="credenziali.email" [ngModelOptions]="{standalone: true}"><br>
     <label>Password</label><input type="password" placeholder="Password" [(ngModel)]="credenziali.password" [ngModelOptions]="{standalone: true}"><br>
-    <button type="submit" (click)="login()">Accedi</button><br>
+    <button type="submit">Accedi</button><br>
     <a routerLink="/registrati">Non hai un account? Registrati ora</a>
 </form>
 

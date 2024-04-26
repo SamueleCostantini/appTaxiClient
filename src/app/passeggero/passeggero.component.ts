@@ -27,11 +27,28 @@ export class PasseggeroComponent {
 
     console.log(this.credenziali);
     let errore : string = "";
-    this.passeggeroService.login(this.credenziali).subscribe(response => {this.passeggero = response });
+    this.passeggeroService.login(this.credenziali).subscribe(
+      response => {
+        this.logged=true;
+        this.passeggero = response},
+      error => {
+          this.logged = false;
+            console.error('Errore durante la richiesta POST:', error);
+            // Gestione dell'errore
+            if (error.status === 500) {
+              // Credenziali non valide
+              alert('Credenziali non valide. Riprova.');
+            } else {
+              // Altro tipo di errore
+              alert('Si è verificato un errore. Riprova più tardi.');
+            }
+          });
     console.log(this.passeggero);
+    if(this.logged){
     this.logged = true;
     this.isVisible = false;
     this.utenteIsVisible = true;
+    }
   }
   edit(){
     this.modCredenzialiIsVisible = true;

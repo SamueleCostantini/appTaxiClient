@@ -14,6 +14,7 @@ import { AddPasseggeroComponent } from './passeggero/add-passeggero/add-passegge
 import { AddTassistaComponent } from './tassista/add-tassista/add-tassista.component'
 import { Credenziali } from './passeggero/credenziali-login';
 import { PrenotazioneComponent } from './prenotazione/prenotazione.component';
+import { RichiestaPrenotazioneComponent } from './prenotazione/richiesta-prenotazione/richiesta-prenotazione.component';
 
 
 
@@ -26,7 +27,8 @@ import { PrenotazioneComponent } from './prenotazione/prenotazione.component';
     HomeComponent,
     AddPasseggeroComponent,
     AddTassistaComponent,
-    PrenotazioneComponent
+    PrenotazioneComponent,
+    RichiestaPrenotazioneComponent
   ],
   imports: [
     BrowserModule,

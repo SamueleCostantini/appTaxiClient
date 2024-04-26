@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHandler } from '@angular/common/http';
 import { Tassista } from './tassista';
-import { Observable } from 'rxjs';
+
+import { Observable, catchError, throwError} from 'rxjs';
+import { Credenziali } from './credenziali-login';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,8 @@ import { Observable } from 'rxjs';
 export class TassistaService {
   
   private url = 'http://localhost:8080/utente/tassista';
-   
+  private urlLogin  = 'http://localhost:8080/utente/tassista/login'
+  
   constructor(private httpClient: HttpClient) { }
   
   getPosts(){
@@ -18,7 +21,17 @@ export class TassistaService {
   createPost(data: any){
     return this.httpClient.post(this.url, data);
   }
-  addTassista(tassista?: Tassista): Observable<Object>{
+  login(credenziali?: Credenziali): Observable<Object>{
+    let risposta:any=this.httpClient.post<Object>(`${this.urlLogin}`, credenziali);
+    
+    return risposta;
+
+  }
+  addTassista(tassista?: Tassista  ): Observable<Object>{
     return this.httpClient.post<Object>(`${this.url}`, tassista);
   }
+  edittassista(id? : string, attributo?: string, valore?:string){
+    console.log("edittassista");
+    return this.httpClient.put<String>(this.url+'/'+id+'='+attributo+'='+valore, "modifica");
+}
 }

@@ -1,7 +1,36 @@
-<p>tassista works!</p>
-<form>
-    <label>Email</label><input type="email" placeholder="Email"><br>
-    <label>Password</label><input type="password" placeholder="Password"><br>
-    <button type="submit">Accedi</button>
+<p>Pagina del tassista</p>
+<form *ngIf="isVisible" (ngSubmit)="login()">
+    <label>Email</label><input type="email" placeholder="Email" [(ngModel)]="credenziali.email" [ngModelOptions]="{standalone: true}"><br>
+    <label>Password</label><input type="password" placeholder="Password" [(ngModel)]="credenziali.password" [ngModelOptions]="{standalone: true}"><br>
+    <input type="submit" placeholder="accedi" value="Accedi"><br>
+    <a routerLink="/registrati">Non hai un account? Registrati ora</a>
 </form>
-<a routerLink="/registrati-tassista">Non hai un account? Registrati come tassista</a>
+
+<div id="pagina-utente" *ngIf="utenteIsVisible">
+<div>
+    <h1>Bentornato {{tassista.name}}</h1>
+    <h2>Cosa vuoi fare?</h2>
+    <div>
+        <button (click)="showTaxi()" >Vedi taxi vicino a te</button>
+        <button (click)="edit()">Modifica le tue credenziali</button>
+        <button>Vedi cronologia prenotazioni</button>
+    </div>
+</div>
+<br>
+<div *ngIf="modCredenzialiIsVisible">
+
+    <label>Nome: {{tassista.name}} - </label><input type="text" #name name="name" placeholder="Inserisci il nuovo nome"><button (click)="edit1('name')">Modifica</button><br>
+    <label>Cognome: {{tassista.surname}} - </label><input type="text" #surname name="name" placeholder="Inserisci il nuovo cognome"><button (click)="edit1('surname')">Modifica</button><br>
+    <label>Email: {{tassista.email}} - </label><input type="text" #email name="name" placeholder="Inserisci la nuova email"><button (click)="edit1('email')"> Modifica</button><br>
+    <label>Password: {{tassista.password}} - </label><input type="text" #password name="name" placeholder="Inserisci la nuova password" ><button (click)="edit1('password')">Modifica</button><br>
+
+</div>
+<div *ngIf="showTaxiIsVisible"> 
+    <ul>
+        <li>Tassista: Marco è a 2km <button>Prenota</button></li>
+        <li>Tassista: Giovanni è a 3km <button>Prenota</button></li>
+        <li>Tassista: Maria è a 3km <button>Prenota</button></li>
+        <li>Tassista: Tiziano è a 10km <button>Prenota</button></li>
+    </ul>
+</div>
+</div>
