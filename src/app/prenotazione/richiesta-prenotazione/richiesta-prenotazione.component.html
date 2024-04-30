@@ -1,8 +1,8 @@
 <p>richiesta-prenotazione works!</p>
-<form>
-    <label>Da dove vuoi partire?</label><input type="email" placeholder="Email" [(ngModel)]="prenotazione.partenza" [ngModelOptions]="{standalone: true}"><br>
-    <label>Dove vuoi andare?</label><input type="password" placeholder="Password" [(ngModel)]="prenotazione.destinazione" [ngModelOptions]="{standalone: true}"><br>
-    <button (click)="genRiepilogo()">Riepilogo</button>
+<form (ngSubmit)="addPrenotazione()">
+    <label>Da dove vuoi partire?</label><input type="text" placeholder="Partenza" [(ngModel)]="prenotazione.partenza" [ngModelOptions]="{standalone: true}"><br>
+    <label>Dove vuoi andare?</label><input type="text" placeholder="Destinazione" [(ngModel)]="prenotazione.destinazione" [ngModelOptions]="{standalone: true}"><br>
+    
     <div *ngIf="riepilogo">
         <label>Tassista: </label><br>
         <label>Partenza: {{prenotazione.partenza}}</label><br>
@@ -10,7 +10,11 @@
         <label>Distanza totale: {{prenotazione.km}}</label><br>
         <label>Costo al km: {{prenotazione.costoXkm}}</label><br>
         <label>Prezzo tratta totale: {{prenotazione.costoTratta}}</label><br>
+        <button type="submit">Invia prenotazione</button><br>
     </div>
-    <button type="submit">Invia prenotazione</button><br>
-    <a routerLink="/registrati">Non hai un account? Registrati ora</a>
+    
+    
+
+    
 </form>
+<button (click)="genRiepilogo()">Riepilogo</button>

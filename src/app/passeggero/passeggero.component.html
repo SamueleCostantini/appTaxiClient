@@ -13,24 +13,45 @@
     <div>
         <button (click)="showTaxi()" >Vedi taxi vicino a te</button>
         <button (click)="edit()">Modifica le tue credenziali</button>
-        <button>Vedi cronologia prenotazioni</button>
+        <button (click)="showCronologia()">Vedi cronologia prenotazioni</button>
     </div>
 </div>
 <br>
 <div *ngIf="modCredenzialiIsVisible">
 
-    <label>Nome: {{passeggero.name}} - </label><input type="text" #name name="name" placeholder="Inserisci il nuovo nome"><button (click)="edit1('name')">Modifica</button><br>
-    <label>Cognome: {{passeggero.surname}} - </label><input type="text" #surname name="name" placeholder="Inserisci il nuovo cognome"><button (click)="edit1('surname')">Modifica</button><br>
-    <label>Email: {{passeggero.email}} - </label><input type="text" #email name="name" placeholder="Inserisci la nuova email"><button (click)="edit1('email')"> Modifica</button><br>
-    <label>Password: {{passeggero.password}} - </label><input type="text" #password name="name" placeholder="Inserisci la nuova password" ><button (click)="edit1('password')">Modifica</button><br>
+    <label>Nome: </label><input type="text" #attributo name="name" placeholder={{passeggero.name}}><button (click)="edit1('name')">Modifica</button><br>
+    <label>Cognome: </label><input type="text" #attributo name="surname" placeholder={{passeggero.surname}}><button (click)="edit1('surname')">Modifica</button><br>
+    <label>Email: </label><input type="email" #attributo name="email" placeholder={{passeggero.email}}><button (click)="edit1('email')"> Modifica</button><br>
+    <label>Password: </label><input type="password" #attributo name="password" placeholder={{passeggero.password}}  ><button (click)="edit1('password')">Modifica</button><br>
 
 </div>
 <div *ngIf="showTaxiIsVisible"> 
     <ul>
-        <li>Tassista: Marco è a 2km <button>Prenota</button></li>
+        <li>Tassista: Marco è a 2km <button routerLink="/richiesta-prenotazione">Prenota</button></li>
         <li>Tassista: Giovanni è a 3km <button>Prenota</button></li>
         <li>Tassista: Maria è a 3km <button>Prenota</button></li>
         <li>Tassista: Tiziano è a 10km <button>Prenota</button></li>
     </ul>
+</div>
+<div *ngIf="showCronologiaIsVisible">
+    <select [(ngModel)]="filtroPrenotazione">
+        <option value="In attesa" [defaultSelected]="true">In attesa di approvazione</option>
+        <option value="Confermata">Confermate</option>
+        <option value="Conclusa">Vecchie prenotazioni</option>
+        
+    </select>
+    
+    <div *ngFor="let p of prenotazioni">
+        <ul *ngIf="p.stato == filtroPrenotazione">
+            <li>ID prenotazione: {{p.id}}</li>
+            <li *ngIf="p.dataOra!==undefined">Data e ora: {{dataOraLeggibile(p.dataOra)}}</li>
+            <li>Stato prenotazione: {{p.stato}}</li>
+            <li>Partenza: {{p.partenza}}</li>
+            <li>Destinazione: {{p.destinazione}}</li>
+            <li>Km totali: {{p.km}}</li>
+            <li>Costo per km: {{p.costoXkm}}</li>
+            <li>Costo intero tratta: {{p.costoTratta}}</li>
+        </ul>
+    </div>
 </div>
 </div>

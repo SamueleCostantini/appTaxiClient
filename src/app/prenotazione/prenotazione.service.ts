@@ -24,5 +24,16 @@ export class PrenotazioneService {
   getPassegero(id_passeggero: number){
     return this.httpClient.get<Object>(this.passeggeroUrl+"/"+id_passeggero);
   }
-  
+  getLocalStoragePasseggero(): Passeggero{
+    const passeggeroJSON = localStorage.getItem('passeggero');
+    let passeggero = new Passeggero();
+    if (passeggeroJSON !== null) {
+      passeggero = JSON.parse(passeggeroJSON);
+    } else {
+      console.log('Nessun dato trovato nel localStorage per la chiave "passeggero".');
+    } 
+    return passeggero;
+    
+   
+  }
 }

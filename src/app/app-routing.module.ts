@@ -6,6 +6,7 @@ import { PasseggeroComponent } from './passeggero/passeggero.component';
 import { AddPasseggeroComponent } from './passeggero/add-passeggero/add-passeggero.component';
 import { AddTassistaComponent } from './tassista/add-tassista/add-tassista.component';
 import { TassistaComponent } from './tassista/tassista.component';
+import { RichiestaPrenotazioneComponent } from './prenotazione/richiesta-prenotazione/richiesta-prenotazione.component';
 
 const routes: Routes = [
   {path: "taxi", component: TaxiComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: "passeggero", component: PasseggeroComponent},
   {path: "tassista", component: TassistaComponent},
   {path: "registrati", component: AddPasseggeroComponent},
-  {path: "registrati-tassista", component: AddTassistaComponent}
+  {path: "registrati-tassista", component: AddTassistaComponent},
+  {path: "richiesta-prenotazione", component: RichiestaPrenotazioneComponent}
 
 ];
 
