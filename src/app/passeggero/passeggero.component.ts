@@ -18,7 +18,6 @@ export class PasseggeroComponent {
   
    passeggero : Passeggero = new Passeggero();
    credenziali: Credenziali = new Credenziali();
-  constructor(private passeggeroService: PasseggeroService, private prenorazioneService: PrenotazioneService){}
    logged: boolean = false;
    isVisible: boolean = true;
    utenteIsVisible: boolean = false;
@@ -26,7 +25,9 @@ export class PasseggeroComponent {
    showTaxiIsVisible : boolean = false;
    showCronologiaIsVisible: boolean = false;
    prenotazioni?: prenotazione[];
-  
+   
+   constructor(private passeggeroService: PasseggeroService, private prenorazioneService: PrenotazioneService){}
+   
    dataOra: number[] = [0,0,0,0,0];
    filtroPrenotazione: string = "In attesa";
   login(){
@@ -94,7 +95,7 @@ export class PasseggeroComponent {
     this.showCronologiaIsVisible = false;
   }
   showCronologia(){
-    let prenotazioniNoFiltro: prenotazione[];
+
     this.showTaxiIsVisible =false;
     this.modCredenzialiIsVisible = false;
     this.showCronologiaIsVisible = true;
