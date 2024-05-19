@@ -2,7 +2,7 @@
 <form *ngIf="isVisible" (ngSubmit)="login()">
     <label>Email</label><input type="email" placeholder="Email" [(ngModel)]="credenziali.email" [ngModelOptions]="{standalone: true}"><br>
     <label>Password</label><input type="password" placeholder="Password" [(ngModel)]="credenziali.password" [ngModelOptions]="{standalone: true}"><br>
-    <input type="submit" placeholder="accedi" value="Accedi"><br>
+    <button type="submit">Accedi</button><br>
     <a routerLink="/registrati">Non hai un account? Registrati ora</a>
 </form>
 
@@ -11,26 +11,57 @@
     <h1>Bentornato {{tassista.name}}</h1>
     <h2>Cosa vuoi fare?</h2>
     <div>
-        <button (click)="showTaxi()" >Vedi taxi vicino a te</button>
         <button (click)="edit()">Modifica le tue credenziali</button>
-        <button>Vedi cronologia prenotazioni</button>
+        <button (click)="showCronologia()">Vedi cronologia prenotazioni</button>
+        <button (click)="aggiornaPosizione()">Aggiorna posizione</button>
+        <button (click)="esci()">Esci</button>
     </div>
 </div>
 <br>
 <div *ngIf="modCredenzialiIsVisible">
 
-    <label>Nome: {{tassista.name}} - </label><input type="text" #name name="name" placeholder="Inserisci il nuovo nome"><button (click)="edit1('name')">Modifica</button><br>
-    <label>Cognome: {{tassista.surname}} - </label><input type="text" #surname name="name" placeholder="Inserisci il nuovo cognome"><button (click)="edit1('surname')">Modifica</button><br>
-    <label>Email: {{tassista.email}} - </label><input type="text" #email name="name" placeholder="Inserisci la nuova email"><button (click)="edit1('email')"> Modifica</button><br>
-    <label>Password: {{tassista.password}} - </label><input type="text" #password name="name" placeholder="Inserisci la nuova password" ><button (click)="edit1('password')">Modifica</button><br>
+    <label>Nome: </label><input type="text" #attributo name="name" placeholder={{tassista.name}}><button (click)="edit1('name')">Modifica</button><br>
+    <label>Cognome: </label><input type="text" #attributo name="surname" placeholder={{tassista.surname}}><button (click)="edit1('surname')">Modifica</button><br>
+    <label>Email: </label><input type="email" #attributo name="email" placeholder={{tassista.email}}><button (click)="edit1('email')"> Modifica</button><br>
+    <label>Password: </label><input type="password" #attributo name="password" placeholder={{tassista.password}}  ><button (click)="edit1('password')">Modifica</button><br>
+    <label>Taxi: </label><input type="password" #attributo name="password" placeholder={{tassista.targa}}  ><button (click)="edit1('targa')">Modifica</button><br>
 
 </div>
 <div *ngIf="showTaxiIsVisible"> 
     <ul>
-        <li>Tassista: Marco è a 2km <button>Prenota</button></li>
-        <li>Tassista: Giovanni è a 3km <button>Prenota</button></li>
-        <li>Tassista: Maria è a 3km <button>Prenota</button></li>
-        <li>Tassista: Tiziano è a 10km <button>Prenota</button></li>
-    </ul>
+    <div *ngFor="let t of tassisti">
+        <li *ngIf="t.idtassista !== undefined">Tassista: {{t.name}} - taxi: {{t.targa}}<input type="button" (click)="launchRichiesta(t.idtassista)" value="Prenota corsa"></li>
+    </div>
+</ul>
+</div>
+<div *ngIf="showCronologiaIsVisible">
+    <select [(ngModel)]="filtroPrenotazione">
+        <option value="In attesa" [defaultSelected]="true">In attesa di approvazione</option>
+        <option value="Confermata">Confermate</option>
+        <option value="Conclusa">Vecchie prenotazioni</option>
+        
+    </select>
+    
+    <div *ngFor="let p of prenotazioni">
+        <ul *ngIf="p.stato == filtroPrenotazione">
+            <li>ID prenotazione: {{p.id}}</li>
+            <li *ngIf="p.dataOra!==undefined">Data e ora: {{dataOraLeggibile(p.dataOra)}}</li>
+            <li>Stato prenotazione: {{p.stato}}</li>
+            <li>Partenza: {{p.partenza}}</li>
+            <li>Destinazione: {{p.destinazione}}</li>
+            <li>Km totali: {{p.km}}</li>
+            <li>Costo per km: {{p.costoXkm}}</li>
+            <li>Costo intero tratta: {{p.costoTratta}}</li>
+            <div *ngIf="p.stato == 'In attesa' ">
+            <button *ngIf="p.id != undefined" (click)="confermaPrenotazione(p.id)">Conferma prenotazione</button>
+            </div>
+            <div *ngIf="p.stato == 'Confermata' ">
+                <button *ngIf="p.id != undefined" (click)="confermaPrenotazione(p.id)">Concludi prenotazione</button>
+            </div>
+            <div *ngIf="p.stato == 'Conclusa' ">
+                <button *ngIf="p.id != undefined" (click)="concludiPrenotazione(p.id)">Elimina prenotazione</button>
+            </div>
+        </ul>
+    </div>
 </div>
 </div>

@@ -5,5 +5,8 @@ export class Passeggero{
     surname?: string;
     password?: string;
     role?: boolean;
+    lat?: number;
+    lng?: number;
 }
+
 

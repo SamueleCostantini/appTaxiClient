@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Passeggero } from './passeggero';
+import { Tassista } from '../tassista/tassista';
 import { Observable } from 'rxjs';
 import { Credenziali } from './credenziali-login';
 import { stringify } from 'querystring';
@@ -13,7 +14,8 @@ export class PasseggeroService {
   
   private url = 'http://localhost:8080/utente/passeggero';
   private urlPrenotazioni = 'http://localhost:8080/prenotazione';
-  private urlLogin  = 'http://localhost:8080/utente/passeggero/login'
+  private urlLogin  = 'http://localhost:8080/utente/passeggero/login';
+  private urlTassisti  = 'http://localhost:8080/utente/tassista';
   
   constructor(private httpClient: HttpClient) { }
   
@@ -37,17 +39,20 @@ export class PasseggeroService {
     return this.httpClient.put<String>(this.url+'/'+id+'='+attributo+'='+valore, "modifica");
   }
 
+  getTassisti(){
+    return this.httpClient.get<Tassista[]>(this.urlTassisti);
+  }
   getPenotazioniByIdPass(idpasseggero: number){
     return this.httpClient.get<prenotazione[]>(this.urlPrenotazioni+"/"+idpasseggero);
   }
 
   postLocalStoragePasseggero(passeggero: Passeggero){
-    localStorage.setItem('passeggero', JSON.stringify(passeggero));
+    sessionStorage.setItem('passeggero', JSON.stringify(passeggero));
     console.log("passeggero id: "+passeggero.idpasseggero)
   }
 
   getLocalStoragePasseggero(): Passeggero{
-    const passeggeroJSON = localStorage.getItem('passeggero');
+    const passeggeroJSON = sessionStorage.getItem('passeggero');
     let passeggero = new Passeggero();
     if (passeggeroJSON !== null) {
       passeggero = JSON.parse(passeggeroJSON);

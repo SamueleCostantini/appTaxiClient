@@ -4,13 +4,13 @@
     <label>Dove vuoi andare?</label><input type="text" placeholder="Destinazione" [(ngModel)]="prenotazione.destinazione" [ngModelOptions]="{standalone: true}"><br>
     
     <div *ngIf="riepilogo">
-        <label>Tassista: </label><br>
+        <label>Tassista: {{tassista.name}}</label><br>
         <label>Partenza: {{prenotazione.partenza}}</label><br>
         <label>Destinazione: {{prenotazione.destinazione}}</label><br>
-        <label>Distanza totale: {{prenotazione.km}}</label><br>
-        <label>Costo al km: {{prenotazione.costoXkm}}</label><br>
-        <label>Prezzo tratta totale: {{prenotazione.costoTratta}}</label><br>
-        <button type="submit">Invia prenotazione</button><br>
+        <label>Distanza totale: {{prenotazione.km}} km</label><br>
+        <label>Costo al km: {{prenotazione.costoXkm}} €</label><br>
+        <label>Prezzo tratta totale: {{prenotazione.costoTratta}} €</label><br>
+        <button type="submit" *ngIf="inviaButton">Invia prenotazione</button><br>
     </div>
     
     

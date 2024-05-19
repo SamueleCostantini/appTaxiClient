@@ -14,6 +14,8 @@
         <button (click)="showTaxi()" >Vedi taxi vicino a te</button>
         <button (click)="edit()">Modifica le tue credenziali</button>
         <button (click)="showCronologia()">Vedi cronologia prenotazioni</button>
+        <button (click)="aggiornaPosizione()">Aggiorna posizione</button>
+        <button (click)="esci()">Esci</button>
     </div>
 </div>
 <br>
@@ -27,11 +29,10 @@
 </div>
 <div *ngIf="showTaxiIsVisible"> 
     <ul>
-        <li>Tassista: Marco è a 2km <button routerLink="/richiesta-prenotazione">Prenota</button></li>
-        <li>Tassista: Giovanni è a 3km <button>Prenota</button></li>
-        <li>Tassista: Maria è a 3km <button>Prenota</button></li>
-        <li>Tassista: Tiziano è a 10km <button>Prenota</button></li>
-    </ul>
+    <div *ngFor="let t of tassisti">
+        <li *ngIf="t.idtassista !== undefined">Tassista: {{t.name}} - taxi: {{t.targa}}<input type="button" (click)="launchRichiesta(t.idtassista)" value="Prenota corsa"></li>
+    </div>
+</ul>
 </div>
 <div *ngIf="showCronologiaIsVisible">
     <select [(ngModel)]="filtroPrenotazione">

@@ -22,6 +22,6 @@
 <h1>Sei un tassista o un passeggero?</h1>
 
 <div class="container-button">
-<button routerLink="/tassista"><img class="taxi-driver" [src]="'./assets/img/icons8-taxi-driver-64.png'"></button>
-<button routerLink="/passeggero"><img class="taxi-driver" [src]="'./assets/img/icons8-middle-aged-100.png'"></button>
+<button routerLink="/tassista" (click)="clearSessionStorage()"><img class="taxi-driver" [src]="'./assets/img/icons8-taxi-driver-64.png'"></button>
+<button routerLink="/passeggero" (click)="clearSessionStorage()"><img class="taxi-driver" [src]="'./assets/img/icons8-middle-aged-100.png'"></button>
 </div>
