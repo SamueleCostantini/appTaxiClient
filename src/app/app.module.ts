@@ -1,3 +1,4 @@
+/** App module, script per diepndenze */
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';

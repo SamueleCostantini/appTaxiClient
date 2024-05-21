@@ -1,16 +1,20 @@
+<!-- Pagina utente del tassista -->
+<!-- Form login --> 
 <p>Pagina del tassista</p>
-<form *ngIf="isVisible" (ngSubmit)="login()">
+<form *ngIf="isVisible" (ngSubmit)="login()"> <!--quando c'è ngIf in un div è per visualizzare o meno il div in base ad una variabile bool, gestibile dallo script -->
     <label>Email</label><input type="email" placeholder="Email" [(ngModel)]="credenziali.email" [ngModelOptions]="{standalone: true}"><br>
     <label>Password</label><input type="password" placeholder="Password" [(ngModel)]="credenziali.password" [ngModelOptions]="{standalone: true}"><br>
-    <button type="submit">Accedi</button><br>
+    <button>Accedi</button><br>
     <a routerLink="/registrati">Non hai un account? Registrati ora</a>
 </form>
 
+<!--Dashboard utente-->
 <div id="pagina-utente" *ngIf="utenteIsVisible">
 <div>
     <h1>Bentornato {{tassista.name}}</h1>
     <h2>Cosa vuoi fare?</h2>
-    <div>
+    <!--Menu dashboard tassista-->
+    <div #menu>
         <button (click)="edit()">Modifica le tue credenziali</button>
         <button (click)="showCronologia()">Vedi cronologia prenotazioni</button>
         <button (click)="aggiornaPosizione()">Aggiorna posizione</button>
@@ -18,30 +22,30 @@
     </div>
 </div>
 <br>
+<!--Sezioni della dashboard tassista-->
+
+<!--Modifica dei dati del tassista-->
 <div *ngIf="modCredenzialiIsVisible">
 
-    <label>Nome: </label><input type="text" #attributo name="name" placeholder={{tassista.name}}><button (click)="edit1('name')">Modifica</button><br>
+    <label>Nome: </label><input type="text" #attributo name="name" placeholder={{tassista.name}}><button (click)="edit1('name')">Modifica</button><br><!--Modifiche degli attributi-->
     <label>Cognome: </label><input type="text" #attributo name="surname" placeholder={{tassista.surname}}><button (click)="edit1('surname')">Modifica</button><br>
     <label>Email: </label><input type="email" #attributo name="email" placeholder={{tassista.email}}><button (click)="edit1('email')"> Modifica</button><br>
     <label>Password: </label><input type="password" #attributo name="password" placeholder={{tassista.password}}  ><button (click)="edit1('password')">Modifica</button><br>
     <label>Taxi: </label><input type="password" #attributo name="password" placeholder={{tassista.targa}}  ><button (click)="edit1('targa')">Modifica</button><br>
 
 </div>
-<div *ngIf="showTaxiIsVisible"> 
-    <ul>
-    <div *ngFor="let t of tassisti">
-        <li *ngIf="t.idtassista !== undefined">Tassista: {{t.name}} - taxi: {{t.targa}}<input type="button" (click)="launchRichiesta(t.idtassista)" value="Prenota corsa"></li>
-    </div>
-</ul>
-</div>
+
+<!--Sezione storico prenotazioni-->
 <div *ngIf="showCronologiaIsVisible">
+    <!--Filtri prenotazioni-->
     <select [(ngModel)]="filtroPrenotazione">
         <option value="In attesa" [defaultSelected]="true">In attesa di approvazione</option>
         <option value="Confermata">Confermate</option>
         <option value="Conclusa">Vecchie prenotazioni</option>
         
     </select>
-    
+<!--Gestione delle prenotazioni-->
+    <!--Lista delle prenotazioni-->    
     <div *ngFor="let p of prenotazioni">
         <ul *ngIf="p.stato == filtroPrenotazione">
             <li>ID prenotazione: {{p.id}}</li>
@@ -56,10 +60,10 @@
             <button *ngIf="p.id != undefined" (click)="confermaPrenotazione(p.id)">Conferma prenotazione</button>
             </div>
             <div *ngIf="p.stato == 'Confermata' ">
-                <button *ngIf="p.id != undefined" (click)="confermaPrenotazione(p.id)">Concludi prenotazione</button>
+                <button *ngIf="p.id != undefined" (click)="concludiPrenotazione(p.id)">Concludi prenotazione</button>
             </div>
             <div *ngIf="p.stato == 'Conclusa' ">
-                <button *ngIf="p.id != undefined" (click)="concludiPrenotazione(p.id)">Elimina prenotazione</button>
+                <button *ngIf="p.id != undefined" (click)="eliminaPrenotazione(p.id)">Elimina prenotazione</button>
             </div>
         </ul>
     </div>

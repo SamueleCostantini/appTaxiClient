@@ -1,3 +1,4 @@
+/** Scriprt che gestisce l'aggiunta di una prenotazione */
 import { Component, OnInit, Injectable } from '@angular/core';
 import { prenotazione } from '../prenotazione';
 import { PrenotazioneService } from '../prenotazione.service';
@@ -11,12 +12,13 @@ import { posizione } from './posizione';
   templateUrl: './richiesta-prenotazione.component.html',
   styleUrl: './richiesta-prenotazione.component.css'
 })
+
 export class RichiestaPrenotazioneComponent{
   
+  /** Variabili utili */
   prenotazione: prenotazione = new prenotazione();
   passeggero: Passeggero = new Passeggero();
   tassista: Tassista  =new Tassista();
-
   prezzoTratta?: number;
   origin: string = '';
   destination: string = '';
@@ -24,63 +26,73 @@ export class RichiestaPrenotazioneComponent{
   errorMessage: string | undefined;
   riepilogo: boolean = false;
   inviaButton: boolean = false;
-  
+  /** fine varibili */
+
   constructor(private prenotazioneService: PrenotazioneService){  }
   
-
-  
+  //funzione per il calcolo della distanza tra due coordinate: origin e destination
 
   calculateDistance(origin : string, destination : string) {
     console.log("calculate distance");
     if (origin && destination) {
-      // Prima otteniamo le coordinate delle città
+      // prima otteniamo le coordinate delle città/vie tramite il nome inserito nell'input
       this.prenotazioneService.searchCity(origin).subscribe(
-        originCoords => {
+        originCoords => { //ottengo le coordinate delle città dal server terzo
           this.prenotazioneService.searchCity(destination).subscribe(
             destinationCoords => {
-              // Poi calcoliamo la distanza usando le coordinate
-              this.prenotazioneService.calculateDistance(originCoords, destinationCoords).subscribe(
+              // poi calcoliamo la distanza usando le coordinate
+              this.prenotazioneService.calculateDistance(originCoords, destinationCoords).subscribe( //calcolo la distanza con le coordinate ottenute, la distanza
+              //la ottengo da un server di terze parti, approfondisco nel prenotazioneservice
                 (distance: number) => {
-                  this.distance = distance;
-                  this.prenotazione.km = this.distance;
+                  this.distance = distance; //salvo la risposta del server
+                  this.prenotazione.km = this.distance; //la metto nella prenotazione locale
                   if(this.prenotazione.costoXkm)
-                    this.prenotazione.costoTratta = this.distance*this.prenotazione.costoXkm;
+                    this.prenotazione.costoTratta = this.distance*this.prenotazione.costoXkm; //calcolo il costo della tratta
                   this.errorMessage = undefined;
-                  this.inviaButton = true;
+                  this.inviaButton = true;//faccio comparire il bottone per il submit
                   console.log('Distanza tra le città:', this.distance);
-                },
+                }, /** gestione degli errori */
                 (error) => {
+                  alert("Ricontrolla i campi, uno e più campi non sono validi");
                   this.errorMessage = 'Errore nel calcolo della distanza. Verifica i dati inseriti.';
                   console.error('Errore nel calcolo della distanza:', error);
+                  location.reload();
                 }
               );
             },
             (error) => {
+              alert("Ricontrolla i campi, uno e più campi non sono validi");
               this.errorMessage = 'Errore nel trovare la destinazione. Verifica i dati inseriti.';
               console.error('Errore nel trovare la destinazione:', error);
+              location.reload();
             }
           );
         },
         (error) => {
+          alert("Ricontrolla i campi, uno e più campi non sono validi");
           this.errorMessage = 'Errore nel trovare l\'origine. Verifica i dati inseriti.';
           console.error('Errore nel trovare l\'origine:', error);
         }
       );
     } else {
+      alert("Ricontrolla i campi, uno e più campi non sono validi");
       this.errorMessage = 'Per favore, inserisci sia l\'origine che la destinazione.';
     }
+    /** fine gestione degli errori */
   }
+
+  //genero il riepilogo dinamico
   genRiepilogo(){
-    let idtassistaJSON:any = sessionStorage.getItem('id-tassista-scelto');
+    let idtassistaJSON:any = sessionStorage.getItem('id-tassista-scelto'); //prelevo l'id del tassista scelto dal passeggero dal sessionstorage
     
-    let idtassista:number = JSON.parse(idtassistaJSON);
+    let idtassista:number = JSON.parse(idtassistaJSON); //lo converto in number
     console.log("tassista sessione storage: "+idtassista);
-    this.passeggero = this.prenotazioneService.getLocalStoragePasseggero();
-    this.prenotazioneService.getTassista(idtassista).subscribe(data => {this.tassista = data});
-    this.prenotazione.costoXkm = 20.0; //indicativo
-    this.prenotazione.stato = "In attesa";
+    this.passeggero = this.prenotazioneService.getLocalStoragePasseggero(); //prelevo le informazioni del passeggero dal sessionstorage
+    this.prenotazioneService.getTassista(idtassista).subscribe(data => {this.tassista = data}); //prelevo le informazioni del tassista dall'id e lo salvo in locale
+    this.prenotazione.costoXkm = 2.0; //in base al prezzo medio dei taxi in italia
+    this.prenotazione.stato = "In attesa"; 
     if(this.prenotazione.partenza && this.prenotazione.destinazione)
-      this.calculateDistance(this.prenotazione.partenza, this.prenotazione.destinazione);
+      this.calculateDistance(this.prenotazione.partenza, this.prenotazione.destinazione); //richiamo funzione precedente per il calcolo della distanza
     
     if(this.prenotazione.km !== undefined)
       this.prenotazione.costoTratta = this.prenotazione.km*this.prenotazione.costoXkm;
@@ -90,6 +102,7 @@ export class RichiestaPrenotazioneComponent{
     console.log("id passeggero "+this.passeggero.idpasseggero);
     this.riepilogo=true; //facciamo apparire il riepilogo
   }
+  //funzione per inviare la prenotazione al server e comparirà nella dashboard del'tassista nella sezione storico
   addPrenotazione(){
     
     //this.prenotazione.id_tassista = this.tasssista.id
@@ -104,9 +117,8 @@ export class RichiestaPrenotazioneComponent{
       console.error(error)
     });
   }
+  
   risposta?: any;
   pos?: posizione = new posizione();
-  /*cerca(){
-    this.prenotazioneService.getApiHere().subscribe(response => {this.risposta = response; console.log("risposta here: "); console.log(response.position[0] + " " + response.position[1]);})
-  }*/
+  
 }

@@ -1,3 +1,4 @@
+/** Script pagina app-component */
 import { Component, OnInit } from '@angular/core';
 import { PostService } from './services/post.service';
 import { Route, RouterLink, Router } from '@angular/router';
@@ -14,10 +15,13 @@ export class AppComponent implements OnInit{
   };
   
   constructor(private service:PostService, private router: Router) {}
+
   ngOnInit(): void {
-    if(!sessionStorage.getItem('passeggero') && !sessionStorage.getItem('tassista' ))
+    //se session storage vuoto la pagina app-component redirect alla home
+    if(sessionStorage.length == 0)
         this.router.navigate(['/home']);
   }
+  //test
   createPost() {
     this.service.createPost(this.postData).subscribe(
       response => {

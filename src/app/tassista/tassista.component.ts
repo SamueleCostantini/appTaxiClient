@@ -1,3 +1,6 @@
+/**
+ * Script che definisce le funzioni per gestire le azioni che deve eseguire un tassista
+ */
 import { Component } from '@angular/core';
 import { Credenziali } from './credenziali-login';
 import { ViewChild, ElementRef,Injectable, ContentChildren, QueryList, ViewChildren } from '@angular/core';
@@ -16,25 +19,36 @@ import { response } from 'express';
 })
 export class TassistaComponent {
 
+  //funzione che viene eseguita al load della pagina
   ngOnInit(): void {
-    if(sessionStorage.length != 0) { 
+    if(sessionStorage.length != 0) {  //se il sessionstorage non è vuoto allora l'utente è loggato e carica la pagina dell'utente
+      //rendo visibili/non visibili le parti dell'html interessate
       this.logged = true;
       this.isVisible = false;
       this.utenteIsVisible = true;
       this.tassista = this.tassistaService.getLocalStorageTassista();
       }
+      //acquisizione della posizione
       navigator.geolocation.getCurrentPosition(
         position =>{
-          alert('Location accessed')
           console.log(position);
           if(this.tassista){
-             this.tassista.lat = position.coords.latitude;
+             this.tassista.lat = position.coords.latitude; //caricamento coordinate nell'oggetto tassista
              this.tassista.lng = position.coords.longitude;
-             this.tassistaService.editTassista(this.tassista.idtassista, "lat", ''+this.tassista.lat).subscribe(response => {console.log('posizione aggiornata lat')});
-             this.tassistaService.editTassista(this.tassista.idtassista, "lng", ''+this.tassista.lng).subscribe(response => {console.log('posizione aggiornata lng')});
+             //chiamata funzione di tassistaService con una chiamata put per la modifica dei campi del database della posizione
+             this.tassistaService.editTassista(this.tassista.idtassista, "lat", ''+this.tassista.lat).subscribe( //effettuo chiamata per latitudine
+              response => { //risposta positiva
+                console.log('posizione aggiornata lat');
+                this.tassistaService.editTassista(this.tassista.idtassista, "lng", ''+this.tassista.lng).subscribe( //effettuo chiamata per longitudine
+                  response => { //risposta positiva
+                    console.log('posizione aggiornata lng')
+                  });
+              
+              });
+             
          }
          },error => {
-              alert('Geolocalizzazione rifiutata')
+              alert('Geolocalizzazione rifiutata') //nel caso in cui l'utente rifiuta la geolocalizzazione
          },
          {
               timeout:10000
@@ -44,8 +58,9 @@ export class TassistaComponent {
     
   }
 
-  @ViewChildren('attributo') attributoDom!: QueryList<ElementRef>;
+  @ViewChildren('attributo') attributoDom!: QueryList<ElementRef>; //Acquisizione elemento del dom per la modifica degi campi di tassista
   
+  /** variabili utili */
    tassista : Tassista = new Tassista();
    credenziali: Credenziali = new Credenziali();
    logged: boolean = false;
@@ -57,22 +72,29 @@ export class TassistaComponent {
    prenotazioni?: prenotazione[];
    tassisti?: Tassista[];
    tassistaScelto?: Tassista = new Tassista();
-   constructor(private tassistaService: TassistaService, private prenorazioneService: PrenotazioneService, private router: Router){}
-   
    dataOra: number[] = [0,0,0,0,0];
    filtroPrenotazione: string = "In attesa";
-  login(){
-    
+   /** fine variabili */
 
+   constructor(private tassistaService: TassistaService, private prenorazioneService: PrenotazioneService, private router: Router){}
+   
+   
+  login(){ //funzione eseguita al login dell'utente
+    
     console.log(this.credenziali);
     let errore : string = "";
+    //chiamata funzione login dal service che effettua richiesta post con il json delle credeziali inserite dall'utente
     this.tassistaService.login(this.credenziali).subscribe(
-      response => {
+      response => { 
+        //istruzioni eseguite se il login va a buon fine
         this.logged=true;
-       
-        this.tassista = response; console.log("response: "); console.log(response);
+        this.tassista = response; //all'oggetto tassista locale viene assegnato il json con le informazioni tassista 
+        //ricevuto come risposta dalla richiesta post
+        console.log("response: "); 
+        console.log(response);
          console.log("id tassista: "+this.tassista.idtassista)},
       error => {
+          //istruzioni eseguite se il login restituisce un errore
           this.logged = false;
             console.error('Errore durante la richiesta POST:', error);
             // Gestione dell'errore
@@ -84,7 +106,7 @@ export class TassistaComponent {
               alert('Si è verificato un errore. Riprova più tardi.');
             }
           });
-    
+    //se il login risulta effettuato vengono visualizzate dinamicamente le sezioni della dashboard
     if(this.logged){
     this.logged = true;
     this.isVisible = false;
@@ -93,35 +115,46 @@ export class TassistaComponent {
     this.tassistaService.postLocalStorageTassista(this.tassista);
     }
   }
+  //attivazione sezione modifica
   edit(){
     this.modCredenzialiIsVisible = true;
     this.showTaxiIsVisible = false;
     this.showCronologiaIsVisible = false;
   }
+  //funzione modifica attributi
   edit1(attributo : string){
     let i:number = 0;
-    let attributoDomArray = this.attributoDom.toArray();
+    let attributoDomArray = this.attributoDom.toArray(); //prendo gli elementi del dom con il #attributo e li metto in un array
+    //vedo cosa l'utente sta modificando ed in base a quello che vuole modificare la i assume un valore indicativo
     switch(attributo){
-      case "name" : i=0; break;
-      case "surname" : i=1; break;
+      case "name" : 
+        i=0; 
+        break;
+      case "surname" : 
+        i=1; 
+        break;
       case "email": 
-        i = 2; 
-        this.tassista.email = attributoDomArray[i].nativeElement.value;
+        i=2; 
+        this.tassista.email = attributoDomArray[i].nativeElement.value; //modifico la email locale
       break;
       case "password": 
         i=3; 
-        this.tassista.password = attributoDomArray[i].nativeElement.value;
+        this.tassista.password = attributoDomArray[i].nativeElement.value; //modifoco la password locale
       break;
-      case "targa": i=4; break;
+      case "targa":  
+        i=4; 
+        break;
     }
     console.log(this.tassista.email+" modifica "+attributo+" in "+ attributoDomArray[i].nativeElement.value);
+    //chiamo funzione del service che effettua una richiesta put per la modifica degli attributi
     this.tassistaService.editTassista(this.tassista.idtassista, attributo, attributoDomArray[i].nativeElement.value).subscribe(
-      response => {
+      //in base all'attributo scelto e al valore della i assegnato corrispondente e all'id del tassista mando la richiesta
+      response => { //risposta positiva
         console.log(response)
         this.credenziali.email = this.tassista.email;
         this.credenziali.password = this.tassista.password;
         alert("Modifica avvenuta con successo");
-        this.tassistaService.login(this.credenziali).subscribe(response => { 
+        this.tassistaService.login(this.credenziali).subscribe(response => { //richiamo dal server il tassista aggiornato
           this.tassista = response;
           this.tassistaService.postLocalStorageTassista(this.tassista); 
           location.reload();
@@ -129,23 +162,19 @@ export class TassistaComponent {
       );
        
       },
-      error => {
+      error => { //risposta negativa
         alert("La modifica non è andata a buon fine, verifica i campi e riprova.")
         console.error(error)
       }
       
   );
   }
+  //funzione per il logout
   esci(){
-    sessionStorage.clear();
-    location.reload();
+    sessionStorage.clear(); //cancello il localstorage cosi che lo script capisca che nessuno è piu loggato
+    location.reload(); //ricarico la pagina
   }
-  showTaxi(){
-    this.showTaxiIsVisible = true;
-    this.modCredenzialiIsVisible = false;
-    this.showCronologiaIsVisible = false;
-    
-  }
+
   launchRichiesta(idtassista: number){
     if(idtassista !== undefined){
     this.router.navigate(['/richiesta-prenotazione']);
@@ -153,15 +182,17 @@ export class TassistaComponent {
     console.log("Tassista %d caricato nel localstorage con successo", idtassista);
     }
   }
+
+  //visualizza gestione delle prenotazioni
   showCronologia(){
 
     this.showTaxiIsVisible = false;
     this.modCredenzialiIsVisible = false;
     this.showCronologiaIsVisible = true;
     if(this.tassista.idtassista !== undefined){ 
-      this.tassistaService.getPenotazioniByIdTass(this.tassista.idtassista).subscribe(data => {
-       
-        this.prenotazioni = data;
+      //rischiesta get delle prenotazioni con la selezione in base all'id tassista
+      this.tassistaService.getPenotazioniByIdTass(this.tassista.idtassista).subscribe(data => {      
+        this.prenotazioni = data; //riempio l'array prenotazioni locale con la risposta del server
         console.log(this.prenotazioni);
       });
       
@@ -171,12 +202,15 @@ export class TassistaComponent {
       console.error("Id tassista non presente");
     
     }
+
+    //conversione data e ora per renderla leggibile
     dataOraLeggibile(dataOra:string[]):string {
       if(dataOra!==undefined)
       return `${dataOra[2]}-${dataOra[1]}-${dataOra[0]}, ${dataOra[3]}:${dataOra[4]}:${dataOra[5]}`;
       else return "errore"
     }
    
+    //conferma una prenotazione che è in attesa con un put dell'attributo stato
     confermaPrenotazione(idprenotazione : number){
       this.prenorazioneService.editPrenotazioneStato(idprenotazione, "Confermata").subscribe(response => {
         alert("Prenotazione confermata");
@@ -186,6 +220,7 @@ export class TassistaComponent {
       }
     );
   }
+    //conclude prenotazione confermata
     concludiPrenotazione(idprenotazione : number){
       this.prenorazioneService.editPrenotazioneStato(idprenotazione, "Conclusa").subscribe(response => {
         alert("Prenotazione conclusa");
@@ -195,6 +230,13 @@ export class TassistaComponent {
       }
     );
     }
+    //elimina prenotazione con un delete
+    eliminaPrenotazione(idprenotazione : number){
+      this.prenorazioneService.delete(idprenotazione).subscribe(response => { console.log(response); alert("Prenotazione eliminata"); location.reload});
+      
+    }
+
+    //aggiorna posizione manualmente
     aggiornaPosizione(){
       location.reload();
       location.reload();

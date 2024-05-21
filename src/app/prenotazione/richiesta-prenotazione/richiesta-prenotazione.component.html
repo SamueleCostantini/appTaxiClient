@@ -1,15 +1,17 @@
+<!--Pagina con form di richiesta per effettuare una prenotazione-->
 <p>richiesta-prenotazione works!</p>
 <form (ngSubmit)="addPrenotazione()">
+    <!--Form per l'inserimento della tratta-->
     <label>Da dove vuoi partire?</label><input type="text" placeholder="Partenza" [(ngModel)]="prenotazione.partenza" [ngModelOptions]="{standalone: true}"><br>
     <label>Dove vuoi andare?</label><input type="text" placeholder="Destinazione" [(ngModel)]="prenotazione.destinazione" [ngModelOptions]="{standalone: true}"><br>
-    
-    <div *ngIf="riepilogo">
+    <!--Riepilogo della prenotazione con le informazioni calcolate e aggiornate con cui verrà effettuata la prenotazione-->
+    <div *ngIf="riepilogo"><!--Sezione generata solo dopo aver inserito la partenza e al destinazione-->
         <label>Tassista: {{tassista.name}}</label><br>
         <label>Partenza: {{prenotazione.partenza}}</label><br>
         <label>Destinazione: {{prenotazione.destinazione}}</label><br>
-        <label>Distanza totale: {{prenotazione.km}} km</label><br>
+        <label>Distanza totale: {{prenotazione.km?.toLocaleString()}} km</label><br>
         <label>Costo al km: {{prenotazione.costoXkm}} €</label><br>
-        <label>Prezzo tratta totale: {{prenotazione.costoTratta}} €</label><br>
+        <label>Prezzo tratta totale: {{prenotazione.costoTratta?.toLocaleString()}} €</label><br>
         <button type="submit" *ngIf="inviaButton">Invia prenotazione</button><br>
     </div>
     
@@ -17,4 +19,5 @@
 
     
 </form>
-<button (click)="genRiepilogo()">Riepilogo</button>
+<!--Pulsante per generare il riepilogo della prenotazione-->
+<button (click)="genRiepilogo()">Genera riepilogo prenotazione</button>

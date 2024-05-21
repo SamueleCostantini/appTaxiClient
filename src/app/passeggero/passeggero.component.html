@@ -1,24 +1,30 @@
+<!--Pagine html del passeggero-->
 <p>Pagina del passeggero</p>
-<form *ngIf="isVisible" (ngSubmit)="login()">
+
+<!--Sezione del login-->
+<form *ngIf="isVisible" (ngSubmit)="login()"> <!--Con ngIf gestisco la visibilita della sezione, appena viene effettuato login questa sezione sparisce-->
     <label>Email</label><input type="email" placeholder="Email" [(ngModel)]="credenziali.email" [ngModelOptions]="{standalone: true}"><br>
     <label>Password</label><input type="password" placeholder="Password" [(ngModel)]="credenziali.password" [ngModelOptions]="{standalone: true}"><br>
-    <button type="submit">Accedi</button><br>
+    <button>Accedi</button><br>
     <a routerLink="/registrati">Non hai un account? Registrati ora</a>
 </form>
 
+<!--Dashboard utente passeggero-->
 <div id="pagina-utente" *ngIf="utenteIsVisible">
 <div>
     <h1>Bentornato {{passeggero.name}}</h1>
     <h2>Cosa vuoi fare?</h2>
+    <!--Menu utente passeggero-->
     <div>
-        <button (click)="showTaxi()" >Vedi taxi vicino a te</button>
-        <button (click)="edit()">Modifica le tue credenziali</button>
-        <button (click)="showCronologia()">Vedi cronologia prenotazioni</button>
-        <button (click)="aggiornaPosizione()">Aggiorna posizione</button>
+        <button (click)="showTaxi()" >Vedi taxi vicino a te</button><!--Mostra sezione elenco taxi-->
+        <button (click)="edit()">Modifica le tue credenziali</button><!--Mostra sezione modifica informazioni-->
+        <button (click)="showCronologia()">Vedi cronologia prenotazioni</button><!--Mostra storico prenotazioni-->
+        <button (click)="aggiornaPosizione()">Aggiorna posizione</button> <!--Aggiorni coordinate geolocalizzazione-->
         <button (click)="esci()">Esci</button>
     </div>
 </div>
 <br>
+<!--Sezione per la modifica dei dati del passeggero-->
 <div *ngIf="modCredenzialiIsVisible">
 
     <label>Nome: </label><input type="text" #attributo name="name" placeholder={{passeggero.name}}><button (click)="edit1('name')">Modifica</button><br>
@@ -27,21 +33,26 @@
     <label>Password: </label><input type="password" #attributo name="password" placeholder={{passeggero.password}}  ><button (click)="edit1('password')">Modifica</button><br>
 
 </div>
+
+<!--Sezione che mostra la lista dei tassisti vicini-->
 <div *ngIf="showTaxiIsVisible"> 
     <ul>
+    <!--Stampa la lista dei tassisti in ordine di lontananza-->
     <div *ngFor="let t of tassisti">
-        <li *ngIf="t.idtassista !== undefined">Tassista: {{t.name}} - taxi: {{t.targa}}<input type="button" (click)="launchRichiesta(t.idtassista)" value="Prenota corsa"></li>
+        <li *ngIf="t.idtassista !== undefined">Tassista: {{t.name}} - taxi: {{t.targa}} - distanza da te: {{t.distanza}} km<input type="button" (click)="launchRichiesta(t.idtassista)" value="Prenota corsa"></li>
     </div>
 </ul>
 </div>
+<!--Sezione per al gestione delle prenotazioni-->
 <div *ngIf="showCronologiaIsVisible">
+    <!--Filtri visualizzazione-->
     <select [(ngModel)]="filtroPrenotazione">
         <option value="In attesa" [defaultSelected]="true">In attesa di approvazione</option>
         <option value="Confermata">Confermate</option>
         <option value="Conclusa">Vecchie prenotazioni</option>
         
     </select>
-    
+    <!--Stampa della lista delle prenotazioni-->
     <div *ngFor="let p of prenotazioni">
         <ul *ngIf="p.stato == filtroPrenotazione">
             <li>ID prenotazione: {{p.id}}</li>
