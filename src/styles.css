@@ -1,4 +1,66 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+background-color: rgb(237, 220, 68);
+}
+button,input[type=submit] {
+    border: solid 5px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 5px 0px 5px 0px #231a1a;
+}
+
+button:hover, input[type=submit]:hover{
+    background-color: white;
+    cursor:pointer;
+    box-shadow: none;
+}
+
+h1{
+    font-weight: bold !important;
+    
+}
+
+input[type=text], input[type=email], input[type=password]{
+    border: solid;
+    width: 90%;
+    border-radius: 5px;
+}
+
+form{
+    display: block !important;
+    margin: auto !important;
+    position: relative !important;
+    width: 210px !important;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px;
+}
+
+#pagina-utente{
+    margin: auto;
+    display: block;
+    position: relative;
+    align-items: center;
+    text-align: center;
+}
+
+#pagina-utente button{
+    margin: 2px;
+    border: 1px;
+    border-radius: 3px;
+    font-size: medium;
+}
+#pagina-utente input{
+    width: initial;
+}
+label{
+    font-weight: 40;
+}
+
+form input[type=button],button{
+    margin-top: 5px;
+    border: solid 1px;
+}

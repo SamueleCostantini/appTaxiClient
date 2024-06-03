@@ -75,6 +75,30 @@ export class PrenotazioneService {
       })
     );
   }
+  searchCityByCoords(lat: number, lng: number): Observable<string> {
+    //url per la chiamata api a here maps con la apikey in fondo
+    let coords=lat+','+lng;
+    
+    //https://revgeocode.search.hereapi.com/v1/revgeocode?at=41.89993%2C12.45447&lang=en-US&apiKey={YOUR_API_KEY}
+
+
+    const apiUrl = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${encodeURIComponent(coords)}&lang=en-US&apiKey=${this.apiKey}`;
+    //codice preso dal sito ufficiale di Here Maps
+    return this.httpClient.get(apiUrl).pipe(
+      map((response: any) => {
+        if (response.items && response.items.length > 0) {
+          let location:string = response.items[0].address.label;
+          return location;
+        } else {
+          throw new Error('No location found');
+        }
+      }),
+      catchError((error) => {
+        console.error('Error fetching geocode from HERE API:', error);
+        return throwError(error);
+      })
+    );
+  }
   //richeista delete per la cancellazione di una prenotazione
   delete(idprenotazione: number): Observable<Object>{
     return this.httpClient.delete(this.url+'/'+idprenotazione);

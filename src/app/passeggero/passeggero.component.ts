@@ -33,6 +33,13 @@ export class PasseggeroComponent implements OnInit{
           if(this.passeggero){
              this.passeggero.lat = position.coords.latitude; //ricavo coordinate da geolocalizzazione
              this.passeggero.lng = position.coords.longitude;
+             this.prenorazioneService.searchCityByCoords(this.passeggero.lat,this.passeggero.lng).subscribe(
+              nomeCitt => {
+                console.log("Nome citta from search: ");
+                console.log(nomeCitt);
+                this.stringaPosizione = nomeCitt;
+              }
+            )
              //con una richiesta put al server modifico le coordinate del passeggero nel database
              this.passeggeroService.editPasseggero(this.passeggero.idpasseggero, "lat", ''+this.passeggero.lat).subscribe(
               response => {
@@ -64,6 +71,7 @@ export class PasseggeroComponent implements OnInit{
    tassistaScelto?: Tassista = new Tassista();
    dataOra: number[] = [0,0,0,0,0];
    filtroPrenotazione: string = "In attesa";
+   stringaPosizione: string = "Posizione non acquisita";
    /** Fine variabili */
    //costruttore con classi private di cui ho bisogno
    /** 

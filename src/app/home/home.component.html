@@ -12,16 +12,29 @@
     }
     .container-button img{
         width: 100px;
+        padding: 10px;
     }
     .container-button button{
         width: auto;
         margin: auto;
         margin: 20px;
     }
+    .title{
+        margin-top: 50px !important;
+    }
+    .title img{
+        width: 32px;
+        margin-left: 20px;
+    }
 </style>
+<h1 class="title">Benvenuto in AppTaxi<img [src]="'./assets/img/icons8-taxi-64.png'"></h1>
 <h1>Sei un tassista o un passeggero?</h1>
 
 <div class="container-button">
-<button routerLink="/tassista" (click)="clearSessionStorage()"><img class="taxi-driver" [src]="'./assets/img/icons8-taxi-driver-64.png'"></button>
+<button routerLink="/tassista" (click)="clearSessionStorage()"><img class="taxi-driver" alt="Tassista" [src]="'./assets/img/icons8-taxi-driver-64.png'"></button>
+
+
 <button routerLink="/passeggero" (click)="clearSessionStorage()"><img class="taxi-driver" [src]="'./assets/img/icons8-middle-aged-100.png'"></button>
+
+
 </div>

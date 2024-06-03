@@ -1,5 +1,5 @@
 <!--Pagine html del passeggero-->
-<p>Pagina del passeggero</p>
+<h1>Pagina del passeggero</h1>
 
 <!--Sezione del login-->
 <form *ngIf="isVisible" (ngSubmit)="login()"> <!--Con ngIf gestisco la visibilita della sezione, appena viene effettuato login questa sezione sparisce-->
@@ -13,6 +13,7 @@
 <div id="pagina-utente" *ngIf="utenteIsVisible">
 <div>
     <h1>Bentornato {{passeggero.name}}</h1>
+    <h2>La tua posizione: {{stringaPosizione}}</h2>
     <h2>Cosa vuoi fare?</h2>
     <!--Menu utente passeggero-->
     <div>

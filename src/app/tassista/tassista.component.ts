@@ -35,6 +35,13 @@ export class TassistaComponent {
           if(this.tassista){
              this.tassista.lat = position.coords.latitude; //caricamento coordinate nell'oggetto tassista
              this.tassista.lng = position.coords.longitude;
+             this.prenorazioneService.searchCityByCoords(this.tassista.lat,this.tassista.lng).subscribe(
+              nomeCitt => {
+                console.log("Nome citta from search: ");
+                console.log(nomeCitt);
+                this.stringPosizione = nomeCitt;
+              }
+            )
              //chiamata funzione di tassistaService con una chiamata put per la modifica dei campi del database della posizione
              this.tassistaService.editTassista(this.tassista.idtassista, "lat", ''+this.tassista.lat).subscribe( //effettuo chiamata per latitudine
               response => { //risposta positiva
@@ -74,6 +81,7 @@ export class TassistaComponent {
    tassistaScelto?: Tassista = new Tassista();
    dataOra: number[] = [0,0,0,0,0];
    filtroPrenotazione: string = "In attesa";
+   stringPosizione: string = "Posizione non acquisita";
    /** fine variabili */
 
    constructor(private tassistaService: TassistaService, private prenorazioneService: PrenotazioneService, private router: Router){}

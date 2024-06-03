@@ -1,17 +1,18 @@
 <!-- Pagina utente del tassista -->
 <!-- Form login --> 
-<p>Pagina del tassista</p>
+<h1>Pagina del tassista</h1>
 <form *ngIf="isVisible" (ngSubmit)="login()"> <!--quando c'è ngIf in un div è per visualizzare o meno il div in base ad una variabile bool, gestibile dallo script -->
     <label>Email</label><input type="email" placeholder="Email" [(ngModel)]="credenziali.email" [ngModelOptions]="{standalone: true}"><br>
     <label>Password</label><input type="password" placeholder="Password" [(ngModel)]="credenziali.password" [ngModelOptions]="{standalone: true}"><br>
     <button>Accedi</button><br>
-    <a routerLink="/registrati">Non hai un account? Registrati ora</a>
+    <a routerLink="/registrati-tassista">Non hai un account? Registrati ora</a>
 </form>
 
 <!--Dashboard utente-->
 <div id="pagina-utente" *ngIf="utenteIsVisible">
 <div>
     <h1>Bentornato {{tassista.name}}</h1>
+    <h2>La tua posizione: {{stringPosizione}}</h2>
     <h2>Cosa vuoi fare?</h2>
     <!--Menu dashboard tassista-->
     <div #menu>
