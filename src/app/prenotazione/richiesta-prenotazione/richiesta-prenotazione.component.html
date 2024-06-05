@@ -1,8 +1,8 @@
 <!--Pagina con form di richiesta per effettuare una prenotazione-->
-<p>richiesta-prenotazione works!</p>
+
 <form (ngSubmit)="addPrenotazione()">
     <!--Form per l'inserimento della tratta-->
-    <label>Da dove vuoi partire?</label><input type="text" placeholder="Partenza" [(ngModel)]="prenotazione.partenza" [ngModelOptions]="{standalone: true}"><br>
+    <label>Da dove vuoi partire?</label><input type="text" placeholder="Partenza" [(ngModel)]="prenotazione.partenza" [ngModelOptions]="{standalone: true}" value={{stringaPosizione}} ><br>
     <label>Dove vuoi andare?</label><input type="text" placeholder="Destinazione" [(ngModel)]="prenotazione.destinazione" [ngModelOptions]="{standalone: true}"><br>
     <!--Riepilogo della prenotazione con le informazioni calcolate e aggiornate con cui verrà effettuata la prenotazione-->
     <div *ngIf="riepilogo"><!--Sezione generata solo dopo aver inserito la partenza e al destinazione-->

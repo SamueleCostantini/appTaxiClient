@@ -16,7 +16,7 @@
     <h2>La tua posizione: {{stringaPosizione}}</h2>
     <h2>Cosa vuoi fare?</h2>
     <!--Menu utente passeggero-->
-    <div>
+    <div id="menu">
         <button (click)="showTaxi()" >Vedi taxi vicino a te</button><!--Mostra sezione elenco taxi-->
         <button (click)="edit()">Modifica le tue credenziali</button><!--Mostra sezione modifica informazioni-->
         <button (click)="showCronologia()">Vedi cronologia prenotazioni</button><!--Mostra storico prenotazioni-->
@@ -27,7 +27,7 @@
 <br>
 <!--Sezione per la modifica dei dati del passeggero-->
 <div *ngIf="modCredenzialiIsVisible">
-
+    <h2>Modifica le tue credenziali</h2>
     <label>Nome: </label><input type="text" #attributo name="name" placeholder={{passeggero.name}}><button (click)="edit1('name')">Modifica</button><br>
     <label>Cognome: </label><input type="text" #attributo name="surname" placeholder={{passeggero.surname}}><button (click)="edit1('surname')">Modifica</button><br>
     <label>Email: </label><input type="email" #attributo name="email" placeholder={{passeggero.email}}><button (click)="edit1('email')"> Modifica</button><br>
@@ -37,6 +37,7 @@
 
 <!--Sezione che mostra la lista dei tassisti vicini-->
 <div *ngIf="showTaxiIsVisible"> 
+    <h2>Lista dei tassisti, dal più vicino al più lontano</h2>
     <ul>
     <!--Stampa la lista dei tassisti in ordine di lontananza-->
     <div *ngFor="let t of tassisti">
@@ -46,6 +47,7 @@
 </div>
 <!--Sezione per al gestione delle prenotazioni-->
 <div *ngIf="showCronologiaIsVisible">
+    <h2>Le tue prenotazioni</h2>
     <!--Filtri visualizzazione-->
     <select [(ngModel)]="filtroPrenotazione">
         <option value="In attesa" [defaultSelected]="true">In attesa di approvazione</option>
@@ -61,9 +63,9 @@
             <li>Stato prenotazione: {{p.stato}}</li>
             <li>Partenza: {{p.partenza}}</li>
             <li>Destinazione: {{p.destinazione}}</li>
-            <li>Km totali: {{p.km}}</li>
-            <li>Costo per km: {{p.costoXkm}}</li>
-            <li>Costo intero tratta: {{p.costoTratta}}</li>
+            <li>Km totali: {{p.km}} km</li>
+            <li>Costo per km: {{p.costoXkm}} €</li>
+            <li>Costo intero tratta: {{p.costoTratta}} €</li>
         </ul>
     </div>
 </div>

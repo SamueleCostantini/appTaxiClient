@@ -15,7 +15,7 @@
     <h2>La tua posizione: {{stringPosizione}}</h2>
     <h2>Cosa vuoi fare?</h2>
     <!--Menu dashboard tassista-->
-    <div #menu>
+    <div #menu id="menu">
         <button (click)="edit()">Modifica le tue credenziali</button>
         <button (click)="showCronologia()">Vedi cronologia prenotazioni</button>
         <button (click)="aggiornaPosizione()">Aggiorna posizione</button>
@@ -27,7 +27,7 @@
 
 <!--Modifica dei dati del tassista-->
 <div *ngIf="modCredenzialiIsVisible">
-
+    <h2>Modifica le tue credenziali</h2>
     <label>Nome: </label><input type="text" #attributo name="name" placeholder={{tassista.name}}><button (click)="edit1('name')">Modifica</button><br><!--Modifiche degli attributi-->
     <label>Cognome: </label><input type="text" #attributo name="surname" placeholder={{tassista.surname}}><button (click)="edit1('surname')">Modifica</button><br>
     <label>Email: </label><input type="email" #attributo name="email" placeholder={{tassista.email}}><button (click)="edit1('email')"> Modifica</button><br>
@@ -39,6 +39,7 @@
 <!--Sezione storico prenotazioni-->
 <div *ngIf="showCronologiaIsVisible">
     <!--Filtri prenotazioni-->
+    <h2>Visualizza le prenotazioni</h2>
     <select [(ngModel)]="filtroPrenotazione">
         <option value="In attesa" [defaultSelected]="true">In attesa di approvazione</option>
         <option value="Confermata">Confermate</option>

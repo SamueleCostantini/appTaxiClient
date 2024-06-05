@@ -1,0 +1,10 @@
+button{
+    margin: auto;
+    display: block;
+    margin-top: 30px;
+    font-size: medium;
+}
+
+form{
+    min-width: 300px;
+}

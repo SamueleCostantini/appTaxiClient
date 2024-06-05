@@ -64,3 +64,34 @@ form input[type=button],button{
     margin-top: 5px;
     border: solid 1px;
 }
+
+#menu{
+    background-color: white !important;
+    
+}
+#menu button{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin:5px;
+    border: solid;
+}
+
+ul {
+    background-color: white;
+    width: fit-content;
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: medium;
+}
+select{
+    font-size: large;
+}
+ul li{
+    list-style-type: none;
+    margin: 10px;
+}

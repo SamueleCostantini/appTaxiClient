@@ -6,6 +6,7 @@ import { Passeggero } from '../../passeggero/passeggero';
 import { Tassista } from '../../tassista/tassista';
 import { response } from 'express';
 import { posizione } from './posizione';
+import { Route, RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-richiesta-prenotazione',
@@ -13,7 +14,7 @@ import { posizione } from './posizione';
   styleUrl: './richiesta-prenotazione.component.css'
 })
 
-export class RichiestaPrenotazioneComponent{
+export class RichiestaPrenotazioneComponent implements OnInit{
   
   /** Variabili utili */
   prenotazione: prenotazione = new prenotazione();
@@ -26,12 +27,40 @@ export class RichiestaPrenotazioneComponent{
   errorMessage: string | undefined;
   riepilogo: boolean = false;
   inviaButton: boolean = false;
+  stringaPosizione: string = "";
   /** fine varibili */
 
-  constructor(private prenotazioneService: PrenotazioneService){  }
+  constructor(private prenotazioneService: PrenotazioneService, private router: Router){  }
   
   //funzione per il calcolo della distanza tra due coordinate: origin e destination
-
+  ngOnInit(): void {
+    navigator.geolocation.getCurrentPosition( //aggiorno la posizione del passeggero
+        position =>{
+          
+          console.log(position);
+          if(this.passeggero){
+             this.passeggero.lat = position.coords.latitude; //ricavo coordinate da geolocalizzazione
+             this.passeggero.lng = position.coords.longitude;
+             this.prenotazioneService.searchCityByCoords(this.passeggero.lat,this.passeggero.lng).subscribe(
+              nomeCitt => {
+                console.log("Nome citta from search: ");
+                console.log(nomeCitt);
+                this.stringaPosizione = nomeCitt;
+                this.prenotazione.partenza = nomeCitt;
+              }
+            )
+             
+            
+             
+         }
+         },error => {
+              alert('Geolocalizzazione rifiutata')
+         },
+         {
+              timeout:10000 //ogni 10 secondi aggiorno la posizione
+         }
+        )
+  }
   calculateDistance(origin : string, destination : string) {
     console.log("calculate distance");
     if (origin && destination) {
@@ -111,6 +140,7 @@ export class RichiestaPrenotazioneComponent{
     response => {
       console.log(response)
       alert("Prenotazione inviata al tassista, ora attendi che il tassista approvi la richiesta.");
+      this.router.navigate(['/passeggero']);
     },
     error => {
       alert("Il processo di prenotazione ha riscontrato un errore, riprova.")
