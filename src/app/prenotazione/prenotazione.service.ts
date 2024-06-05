@@ -21,6 +21,9 @@ export class PrenotazioneService {
 
   constructor(private httpClient: HttpClient) { }
 
+  getPrenotazioneById(id_prenotazione: number){
+    return this.httpClient.get<Object>(this.url+'/id='+id_prenotazione);
+  }
   //richiesta post per salvare la prenotazioen
   addPrenotazione(prenotazione: prenotazione){
     return this.httpClient.post<Object>(this.url, prenotazione);

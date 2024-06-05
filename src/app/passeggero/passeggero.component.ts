@@ -201,9 +201,17 @@ export class PasseggeroComponent implements OnInit{
      if(this.passeggero.lat && this.passeggero.lng)
         positionP = {lat: this.passeggero.lat, lng : this.passeggero.lng}; //ricavo la posizione dalle coordinate del passeggero locale
      //for per scorrere tutto l'array e calcolare la distanza
+     for (let i = this.tassisti.length - 1; i >= 0; i--) {
+      let t = this.tassisti[i];
+      // Condizione per eliminare l'elemento
+      if (this.tassisti[i].lat == 0 || this.tassisti[i].lng == 0) {
+        this.tassisti.splice(i, 1);
+      }
+    }
      for(let t of this.tassisti){
+      
       //se le coordinare del tassista esistono e non sono zero, se sono 0 non è presente una posizione: o il tassista non ha dato il consenso o si è verificato un errore
-        if(t.lat && t.lng && t.lat != 0 && t.lng!=0){
+        if(t.lat && t.lng){
           positionT = {lat: t.lat, lng : t.lng}; //ricavo la posizione del tassista
         //chiamata alla funzione del service che calcola la distanza tramite una chiamata api al servizio HereMaps, nei parametri c'è origine e destinazione
         this.prenorazioneService.calculateDistance(positionT, positionP).subscribe(response => {

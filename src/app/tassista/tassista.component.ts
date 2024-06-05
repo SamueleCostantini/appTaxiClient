@@ -58,7 +58,7 @@ export class TassistaComponent {
               alert('Geolocalizzazione rifiutata') //nel caso in cui l'utente rifiuta la geolocalizzazione
          },
          {
-              timeout:10000
+              timeout:2000
          }
         )
     

@@ -8,6 +8,7 @@ import { AddPasseggeroComponent } from './passeggero/add-passeggero/add-passegge
 import { AddTassistaComponent } from './tassista/add-tassista/add-tassista.component';
 import { TassistaComponent } from './tassista/tassista.component';
 import { RichiestaPrenotazioneComponent } from './prenotazione/richiesta-prenotazione/richiesta-prenotazione.component';
+import { PrenotazioneComponent } from './prenotazione/prenotazione.component';
 
 //routes da una stringa/nominativo ad un percorso di una pagina specifica
 const routes: Routes = [
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: "tassista", component: TassistaComponent},
   {path: "registrati", component: AddPasseggeroComponent},
   {path: "registrati-tassista", component: AddTassistaComponent},
-  {path: "richiesta-prenotazione", component: RichiestaPrenotazioneComponent}
+  {path: "richiesta-prenotazione", component: RichiestaPrenotazioneComponent},
+  {path: "prenotazione/id=:id", component: PrenotazioneComponent}
 
 ];
 

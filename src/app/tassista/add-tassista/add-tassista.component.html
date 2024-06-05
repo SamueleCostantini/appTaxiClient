@@ -1,11 +1,11 @@
 <!-- pagina di registrazione per i tassisti -->
 <h1>Registrati come tassista</h1>
 <form>
-    <label>Email</label><input type="email" name="email" [(ngModel)]="tassista.email" >
-    <br><label>Nome</label><input type="email" name="name" [(ngModel)]="tassista.name" >
-    <br><label>Cognome</label><input type="email" name="surname" [(ngModel)]="tassista.surname" >
-    <br><label>Password</label><input type="password" name="password" [(ngModel)]="tassista.password" >
-    <br><label>Tassista </label><input type="text" name="targa" [(ngModel)]="tassista.targa" >
-    <br><label>Tassista </label><input type="checkbox" [defaultChecked]="true" name="role" [(ngModel)]="tassista.role" >
-    <br><input type="submit" (click)="addtassista()" placeholder="Aggiungi taxi">
+    <label>Email</label><input type="email" name="email" placeholder="Email" [(ngModel)]="tassista.email" >
+    <br><label>Nome</label><input type="email" name="name" [(ngModel)]="tassista.name" placeholder="Nome">
+    <br><label>Cognome</label><input type="email" name="surname" [(ngModel)]="tassista.surname" placeholder="Cognome">
+    <br><label style="font-size: x-small; font-style: italic; color: gray;">La password deve avere almeno 8 caratteri</label>
+    <br><label>Password</label><input type="password" name="password" [(ngModel)]="tassista.password" placeholder="Password">
+    <br><label>Targa taxi </label><input type="text" name="targa" [(ngModel)]="tassista.targa" placeholder="Targa">
+    <br><br><input type="submit" (click)="addtassista()" placeholder="Aggiungi taxi">
 </form>
