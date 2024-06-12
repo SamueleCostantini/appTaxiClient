@@ -19,7 +19,7 @@ const routes: Routes = [
   {path: "registrati", component: AddPasseggeroComponent},
   {path: "registrati-tassista", component: AddTassistaComponent},
   {path: "richiesta-prenotazione", component: RichiestaPrenotazioneComponent},
-  {path: "prenotazione/id=:id", component: PrenotazioneComponent}
+  {path: "prenotazione/id/:id", component: PrenotazioneComponent}
 
 ];
 
