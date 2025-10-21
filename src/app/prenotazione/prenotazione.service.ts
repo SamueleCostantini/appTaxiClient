@@ -17,7 +17,7 @@ export class PrenotazioneService {
   private url = 'http://localhost:8080/prenotazione';
   private tassistaUrl = 'http://localhost:8080/utente/tassista'
   private passeggeroUrl = 'http://localhost:8080/utente/passeggero'
-  private apiKey = "wxyOU_md8thZjj8miRYCKLgGMF0MZFSP0-gCxiYInSE"; //api key per il servizio di terze parti Here Maps
+  private apiKey = ""; //api key per il servizio di terze parti Here Maps
 
   constructor(private httpClient: HttpClient) { }
 
